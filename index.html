@@ -1,45 +1,132 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>我的AI助手</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>My DeepSeek</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="light-mode">
     <div id="app">
         <!-- 顶部栏 -->
         <div id="header">
-            <h1>DeepSeek AI 聊天</h1>
-            <div id="header-btns">
-                <button id="theme-btn" title="切换白天/夜间模式">🌙</button>
-                <button id="new-chat-btn" title="新建对话">➕</button>
-                <button id="settings-btn" title="设置API Key">⚙️</button>
+            <button id="menu-btn" title="菜单">☰</button>
+            <h1>My DeepSeek</h1>
+            <div id="header-actions">
+                <button id="theme-btn" title="切换模式">🌙</button>
+                <button id="settings-btn" title="设置">⚙️</button>
             </div>
         </div>
 
-        <!-- 对话列表侧边栏 -->
-        <div id="sidebar">
-            <div id="chat-list"></div>
-        </div>
-
-        <!-- 主聊天区域 -->
-        <div id="main-area">
-            <div id="chat-box">
-                <div class="message ai">你好！点击左侧➕新建对话，点击🌙切换夜间模式。</div>
+        <!-- 主体 -->
+        <div id="app-body">
+            <!-- 侧边栏 -->
+            <div id="sidebar">
+                <div id="sidebar-header">
+                    <h3>指令市场</h3>
+                </div>
+                <div id="sidebar-tabs">
+                    <button class="tab-btn active" data-tab="instructions">对话管理</button>
+                    <button class="tab-btn" data-tab="characters">角色卡管理</button>
+                </div>
+                <div id="sidebar-content">
+                    <!-- 角色卡列表 -->
+                    <div id="characters-list" class="tab-content"></div>
+                    <!-- 对话列表 -->
+                    <div id="chats-list" class="tab-content active"></div>
+                </div>
+                <div id="storage-info">
+                    已用空间 <span id="storage-used">0 MB</span>
+                </div>
             </div>
-            <div id="input-area">
-                <input type="text" id="user-input" placeholder="在这里输入消息...">
-                <button id="send-btn">发送</button>
+
+            <!-- 主聊天区域 -->
+            <div id="main-area">
+                <!-- 角色卡展示区 -->
+                <div id="character-banner" style="display:none;">
+                    <div id="character-avatar"></div>
+                    <div id="character-info">
+                        <div id="character-name"></div>
+                        <div id="character-desc"></div>
+                    </div>
+                    <button id="close-character">✕</button>
+                </div>
+
+                <!-- 对话操作栏 -->
+                <div id="chat-toolbar" style="display:none;">
+                    <span id="current-chat-title"></span>
+                    <div id="chat-toolbar-actions">
+                        <button id="rename-chat-btn" title="重命名">✏️</button>
+                        <button id="export-chat-btn" title="导出对话">📥</button>
+                    </div>
+                </div>
+
+                <!-- 欢迎页 -->
+                <div id="welcome-screen">
+                    <div class="welcome-icon">🤖</div>
+                    <h2>不知道跟DS老师聊什么？</h2>
+                    <p>看看指令市场！</p>
+                </div>
+
+                <!-- 聊天框 -->
+                <div id="chat-box"></div>
+
+                <!-- 底部输入区 -->
+                <div id="input-area">
+                    <div id="input-options">
+                        <label class="option-toggle">
+                            <input type="checkbox" id="deep-think"> 深度思考
+                        </label>
+                        <label class="option-toggle">
+                            <input type="checkbox" id="web-preview"> 预览网页
+                        </label>
+                    </div>
+                    <div id="input-row">
+                        <textarea id="user-input" rows="1" placeholder="输入消息..."></textarea>
+                        <button id="send-btn">➤</button>
+                    </div>
+                    <div id="char-counter">0字</div>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- 设置API Key的弹窗 -->
+    <!-- 设置弹窗 -->
     <div id="settings-modal">
         <div>
             <h3>设置API Key</h3>
             <input type="password" id="api-key-input" placeholder="粘贴你的DeepSeek API Key">
+            <div id="model-select">
+                <label>模型选择：</label>
+                <select id="model-selector">
+                    <option value="deepseek-chat">DeepSeek-Chat (通用)</option>
+                    <option value="deepseek-reasoner">DeepSeek-Reasoner (推理)</option>
+                </select>
+            </div>
             <button id="save-key-btn">保存</button>
             <button id="close-modal-btn">取消</button>
+        </div>
+    </div>
+
+    <!-- 角色卡弹窗 -->
+    <div id="character-modal">
+        <div>
+            <h3>创建角色卡</h3>
+            <input type="text" id="char-name-input" placeholder="角色名称">
+            <input type="text" id="char-avatar-input" placeholder="头像表情 (如: 🚗)">
+            <textarea id="char-prompt-input" rows="3" placeholder="角色设定 (如: 你是一个...的AI助手)"></textarea>
+            <button id="save-char-btn">保存角色</button>
+            <button id="close-char-modal-btn">取消</button>
+        </div>
+    </div>
+
+    <!-- 重命名弹窗 -->
+    <div id="rename-modal">
+        <div>
+            <h3>重命名对话</h3>
+            <input type="text" id="rename-input" placeholder="输入新名称">
+            <button id="save-rename-btn">保存</button>
+            <button id="close-rename-btn">取消</button>
         </div>
     </div>
 
