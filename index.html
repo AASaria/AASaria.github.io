@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>我的AI助手</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="light-mode">
+    <div id="app">
+        <!-- 顶部栏 -->
+        <div id="header">
+            <h1>DeepSeek AI 聊天</h1>
+            <div id="header-btns">
+                <button id="theme-btn" title="切换白天/夜间模式">🌙</button>
+                <button id="new-chat-btn" title="新建对话">➕</button>
+                <button id="settings-btn" title="设置API Key">⚙️</button>
+            </div>
+        </div>
+
+        <!-- 对话列表侧边栏 -->
+        <div id="sidebar">
+            <div id="chat-list"></div>
+        </div>
+
+        <!-- 主聊天区域 -->
+        <div id="main-area">
+            <div id="chat-box">
+                <div class="message ai">你好！点击左侧➕新建对话，点击🌙切换夜间模式。</div>
+            </div>
+            <div id="input-area">
+                <input type="text" id="user-input" placeholder="在这里输入消息...">
+                <button id="send-btn">发送</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 设置API Key的弹窗 -->
+    <div id="settings-modal">
+        <div>
+            <h3>设置API Key</h3>
+            <input type="password" id="api-key-input" placeholder="粘贴你的DeepSeek API Key">
+            <button id="save-key-btn">保存</button>
+            <button id="close-modal-btn">取消</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
